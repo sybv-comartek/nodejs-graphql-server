@@ -1,0 +1,28 @@
+import {gql} from 'apollo-server-express';
+import moduleName from '@/'
+const typeDefs = gql`
+type Student {
+    id: ID!
+    name: String
+    dob: String
+    mobile: String
+    password: String
+    }
+    type StudentDetails {
+    id: ID!
+    student_id: ID
+    age: String
+    address: String
+    city: String
+    state: String
+    }
+    type StudentRoles {
+    id: ID!
+    student_id: ID
+    role: String
+},
+type Query {
+    student: [Student]
+}
+`;
+export default typeDefs;
