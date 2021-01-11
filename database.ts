@@ -1,17 +1,14 @@
-// import Sequelize from 'sequelize';
 'use strict';
 import {users} from './src/models/users';
-const Sequelize = require('sequelize')
-
-var db : any = {};
-
-const sequelize = new Sequelize( 
-  process.env.DB_NAME,  
-  process.env.DB_USER, 
-  process.env.DB_PASS, 
+import * as sequelize from 'sequelize'
+var db:any = {}
+const dbConfig = new sequelize.Sequelize( 
+  (process.env.DB_NAME||''),  
+  (process.env.DB_USER||''), 
+  (process.env.DB_PASS||''), 
   {
-    host: process.env.DB_HOST,
-    port:  process.env.DB_PORT,
+    host: process.env.DB_HOST||'',
+    port: Number(process.env.DB_PORT),
     dialect: 'mysql',
     define: {
         freezeTableName: true,
@@ -22,7 +19,7 @@ const sequelize = new Sequelize(
         acquire: 30000,
         idle: 10000,
     },
-    operatorsAliases: false,
+    operatorsAliases: false||undefined,
 })
 
 let models = [
@@ -31,7 +28,7 @@ let models = [
 
 // Khởi tạo models
 models.forEach(model => {
-    const seqModel = model(sequelize, Sequelize)
+    const seqModel = model(dbConfig, sequelize.Sequelize)
     db[seqModel.name] = seqModel
 })
 
